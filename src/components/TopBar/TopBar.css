@@ -1,0 +1,70 @@
+.top {
+    font-size: 1.1 em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 80px;
+    width: 100%;
+    background-color: #646b80;
+}
+
+.top_item {
+    display: flex;
+    width: 25%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.top_item.settings {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+}
+
+.top_item_language,
+.top_item_theme {
+    text-align: center;
+    width: 50%;
+}
+
+.top_item_language_name:hover,
+.top_item_theme_name:hover {
+    cursor: pointer;
+    color: navy;
+}
+
+a {
+    text-decoration: none !important;
+    border: none !important;
+}
+
+.languages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.languageSheetItem,
+.themeSheetItem {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 2px;
+    width: 80%;
+    outline: 1px solid navy;
+    outline-offset: -1px;
+    background-color: rgb(125, 125, 247);
+    border-radius: 5px;
+}
+
+.languageSheetItem:hover,
+.themeSheetItem:hover {
+    background-color: #4d4de1;
+}
