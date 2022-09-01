@@ -8,6 +8,9 @@ const translations:{[index: string]:{[index: string]:string}} = {
     "theme":"Theme",
     "dark":"Dark",
     "light":"Light",
+    "games":"Games",
+    "game_1":"Game_1",
+    "game_2":"Game_2",
     
   },
 
@@ -19,6 +22,9 @@ const translations:{[index: string]:{[index: string]:string}} = {
     "theme":"Тема",
     "dark":"Темна",
     "light":"Світла",
+    "games":"Ігри",
+    "game_1":"Гра_1",
+    "game_2":"Гра_2",
     
 
   },

@@ -1,6 +1,7 @@
 import './App.css';
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import TopBar from './components/TopBar';
+import Game1 from './components/Game1';
 
 
 
@@ -16,7 +17,7 @@ function App() {
 
 
         <Routes>
-          {/* <Route path="/main"   element={<Body></Body>} /> */}
+          <Route path="/game_1"   element={<Game1></Game1>} />
 
 
 

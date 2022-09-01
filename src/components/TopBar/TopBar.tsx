@@ -66,14 +66,24 @@ const TopBar: React.FC<any> = () => {
     const showThemesSheet = ()=>{
       document.getElementById("themesSheet")?.classList.toggle("hidden")
     }
+    const showGamesSheet = ()=>{
+      document.getElementById("gamesSheet")?.classList.toggle("hidden")
+    }
 
   return <div className="top">
+
     <div className="top_item">
     <Link to="" data-i18n-key="home"></Link>
     </div>
-    <div className="top_item">
-      top_item
+
+    <div className="top_item games">
+      <span className="top_item_games_span" data-i18n-key="games" onClick={showGamesSheet}></span>
+      <div id="gamesSheet" className="games hidden">
+      <Link to="/game_1"   className="gameSheetItem"  onClick={showGamesSheet} data-i18n-key="game_1"></Link>
+      <Link to="/game_2" className="gameSheetItem"  onClick={showGamesSheet} data-i18n-key="game_2"></Link>
+      </div>  
     </div>
+
     <div className="top_item">
       top_item
     </div>
@@ -81,7 +91,7 @@ const TopBar: React.FC<any> = () => {
     <div className="top_item settings">
       <div className="top_item_language">
         <div className="" onClick={showLanguagesSheet}>
-          <span className="top_item_language_name"data-i18n-key="language"></span>
+          <span className="top_item_language_name" data-i18n-key="language"></span>
           <div id="languagesSheet" className="languages hidden">
             <span className="languageSheetItem" onClick={()=>{changeLang("en")}} data-i18n-key="english"></span>
             <span className="languageSheetItem" onClick={()=>{changeLang("ua")}} data-i18n-key="ukraine"></span>
