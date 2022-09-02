@@ -14,21 +14,32 @@
     background-color: red;
 }
 
-.cell {
-    width: 70px;
-    height: 70px;
-    background-color: green;
-    outline: 1px solid black;
-    outline-offset: -1px;
-}
-
 .game_object {
     position: absolute;
 }
 
 .player {
+    width: 160px;
+    height: 20px;
+    border-radius: 5px;
+}
+
+.blue {
+    background-color: blue;
+}
+
+.characteristics {
+    margin-top: 10px;
+    display: flex;
+}
+
+.but {
+    margin-left: 5px;
+}
+
+.bonus {
+    background-color: blue;
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background-color: navy;
 }

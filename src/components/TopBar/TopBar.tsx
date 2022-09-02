@@ -79,8 +79,8 @@ const TopBar: React.FC<any> = () => {
     <div className="top_item games">
       <span className="top_item_games_span" data-i18n-key="games" onClick={showGamesSheet}></span>
       <div id="gamesSheet" className="games hidden">
-      <Link to="/game_1"   className="gameSheetItem"  onClick={showGamesSheet} data-i18n-key="game_1"></Link>
-      <Link to="/game_2" className="gameSheetItem"  onClick={showGamesSheet} data-i18n-key="game_2"></Link>
+      <Link to="/game_1"   className="gameSheetItem"  onClick={()=>{showGamesSheet();changeLang(locale) }} data-i18n-key="game_1"></Link>
+      <Link to="/game_2" className="gameSheetItem"  onClick={()=>{showGamesSheet();changeLang(locale) }} data-i18n-key="game_2"></Link>
       </div>  
     </div>
 
