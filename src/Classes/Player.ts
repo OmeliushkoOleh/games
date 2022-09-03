@@ -3,11 +3,20 @@ import { pressedKeys } from "../services/userInput"
 import { GameObject } from "./gameObj"
 
 export class Player  extends GameObject{
-    width:number = 0
-    height:number = 0
+    private _width:number = 160
+    height:number = 20
     color:string = "#2eff00"
     private _speed:number = 3
-  
+    
+    set width(x:number){
+        this._width = x
+        this.renderObj.style.width = x.toString() + "px" 
+        this.render()
+      }
+      get width():number{
+        return this._width
+      }
+
     move(){  
       if(pressedKeys.isWPressed){
         this.y = this.y - this._speed
@@ -51,8 +60,8 @@ export class Player  extends GameObject{
       this.y = 690
       this.renderObj.classList.add("player")
       this.renderObj.style.backgroundColor = this.color
-      this.width = parseFloat(getComputedStyle(this.renderObj).width)
-      this.height = parseFloat(getComputedStyle(this.renderObj).height)
+      this.renderObj.style.width = this.width.toString() + "px"
+      this.renderObj.style.height = this.height.toString() + "px"
       this.renderObj.id = "player"
       this.render()
     } 

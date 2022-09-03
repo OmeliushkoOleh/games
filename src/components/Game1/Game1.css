@@ -19,8 +19,6 @@
 }
 
 .player {
-    width: 160px;
-    height: 20px;
     border-radius: 5px;
 }
 
@@ -38,7 +36,6 @@
 }
 
 .bonus {
-    background-color: blue;
     width: 20px;
     height: 20px;
     border-radius: 50%;

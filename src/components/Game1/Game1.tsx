@@ -4,7 +4,7 @@ import './Game1.css';
 import * as rxjs from "rxjs"
 import { Player } from "../../Classes/Player";
 import { GameObject } from "../../Classes/gameObj";
-import { Bonus } from "../../Classes/Bonus";
+import { gameManager } from "../../services/GameManager";
 type Game1Props = {
   //
 };
@@ -18,38 +18,33 @@ export const fieldSize = {
   height:700,
 }
 
+export let globalSetGameObjects:any = null  
 
-let gameObjects:GameObject[] = []
-
-
-
-
+export let gameObjects:GameObject[] = []
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const Game1: React.FC<any> = () => {
 
   const [mute, setMute] = React.useState(true)
 
-  const [speed, setSpeed] = React.useState(1)
-
 
   const [gameObjectsarr, setGameObjects] = React.useState(gameObjects || [])
+  globalSetGameObjects = setGameObjects
+
 
   React.useEffect(()=>{
+    gameManager()
     player  = new Player()
-    let bonus:Bonus  = new Bonus()
-    gameObjects.push(player,bonus)
-    setGameObjects(gameObjects)
-    
     setInterval(()=>{  
       let newArr = gameObjectsarr.filter((e)=>{
         return e.isDestroyed !== true
-
       })
       setGameObjects(newArr)
       newArr.forEach((e:any)=>{
         e.move()
       }) 
+
+      
     },10)
     },[])
 

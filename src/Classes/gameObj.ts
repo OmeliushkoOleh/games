@@ -14,7 +14,6 @@ export abstract class GameObject {
       } else{
         return false
       }
-      
     }
     destroy(){
       this.isDestroyed = true
