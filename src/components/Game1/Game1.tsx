@@ -1,42 +1,22 @@
 import { parse } from "node:path/win32";
 import * as React from "react";
 import './Game1.css';
+import * as rxjs from "rxjs"
+import { Player } from "../../Classes/Player";
+import { GameObject } from "../../Classes/gameObj";
+import { Bonus } from "../../Classes/Bonus";
 type Game1Props = {
   //
 };
 
 
-let playerCharacteristics = {
-  speed:2,
-  color:"#2eff00",
-  width:120,
-}
+export let player:Player
 
-let fieldSize = {
+
+export const fieldSize = {
   width:700,
   height:700,
 }
-
-
-abstract class GameObject {
-  renderObj:HTMLElement 
-  x:number = 0
-  y:number = 0
-  abstract move():void 
-  constructor(){
-    this.renderObj = document.createElement("div");
-    this.renderObj.classList.add("game_object")
-    let field = document.getElementById("field")
-    field!.appendChild(this.renderObj);
-  } 
-  abstract render():void
-}
-
-
-let isWPressed:boolean = false
-let isSPressed:boolean = false
-let isAPressed:boolean = false
-let isDPressed:boolean = false
 
 
 let gameObjects:GameObject[] = []
@@ -53,144 +33,34 @@ const Game1: React.FC<any> = () => {
   const [speed, setSpeed] = React.useState(1)
 
 
-
-  class Player  extends GameObject{
-    width:number = 0
-    height:number = 0
-    _speed:number = 3
-  
-    move(){  
-      if(isWPressed){
-        this.y = this.y - playerCharacteristics.speed
-      }
-      if(isSPressed){
-        this.y = this.y + playerCharacteristics.speed 
-      }
-      if(isAPressed){
-        this.x = this.x - playerCharacteristics.speed
-      }
-      if(isDPressed){
-        this.x = this.x + playerCharacteristics.speed 
-      }
-      if(this.y <  this.height/2){
-        this.y =  this.height/2
-      }
-      if(this.y > fieldSize.height - this.height/2  ){
-        this.y = fieldSize.height - this.height/2
-      }
-      if(this.x < this.width/2 ){
-        this.x =  this.width/2
-      }
-      if(this.x > fieldSize.width - this.width/2 ){
-        this.x = fieldSize.width - this.width/2
-      }
-      this.render()
-    } 
-    public set speed(x:number){
-      this._speed = x
-      setSpeed(this._speed)
-    }
-    public get speed():number{
-      return this._speed
-    }
-    render(){
-      this.renderObj.style.left = (this.x - this.width/2).toString() + "px"
-      this.renderObj.style.top = (this.y - this.height/2).toString() + "px"
-    }
-    constructor(){
-      super()
-      this.x = 350
-      this.y = 690
-      this.renderObj.classList.add("player")
-      this.renderObj.style.backgroundColor = playerCharacteristics.color
-      this.width = parseFloat(getComputedStyle(this.renderObj).width)
-      this.height = parseFloat(getComputedStyle(this.renderObj).height)
-      this.renderObj.id = "player"
-      this.render()
-    } 
-  }
-  const addEventlisteners = ()=>{
-
-    document.addEventListener("keydown",(e)=>{
-      // if(e.key === "w" || e.key === "ц"){
-      //   isWPressed = true
-      // }  if(e.key === "s" || e.key === "ы" || e.key === "і"){
-      //   isSPressed = true
-      // } else 
-      if(e.key === "a" || e.key === "ф"){
-        isAPressed = true
-      } else if(e.key === "d" || e.key === "в") {
-        isDPressed = true
-      }
-    })
-
-    document.addEventListener("keyup",(e)=>{
-      // if(e.key === "w" || e.key === "ц"){
-      //   isWPressed = false
-      // }  if(e.key === "s" || e.key === "ы" || e.key === "і"){
-      //   isSPressed = false
-      // } else 
-      if(e.key === "a" || e.key === "ф"){
-        isAPressed = false
-      } else if(e.key === "d" || e.key === "в") {
-        isDPressed = false
-      }
-    })
-  }
-
-  class Bonus  extends GameObject{
-    width:number = 0
-    height:number = 0
-    _speed:number = 1
-    id = "bonus" + (Math.random()*1000).toFixed(0)
-    move(){
-      this.y = this.y + this._speed
-      if(this.y > fieldSize.height - this.height/2  ){
-        this.y = fieldSize.height - this.height/2
-      }
-      
-      if(parseFloat(document.getElementById("player")!.style.left.split(".")[0]) < this.x && this.x < parseFloat(document.getElementById("player")!.style.left.split(".")[0]) + document.getElementById("player")!.getBoundingClientRect().width && this.y > fieldSize.height - this.height){
-        playerCharacteristics.speed = playerCharacteristics.speed + 3
-
-        setTimeout(()=>{         
-          playerCharacteristics.speed = playerCharacteristics.speed - 3
-        },3000)
-      }
-
-      this.render()
-    }
-    render(){
-      this.renderObj.style.left = (this.x - this.width/2).toString() + "px"
-      this.renderObj.style.top = (this.y - this.height/2).toString() + "px"
-    }
-    constructor(){
-      super()
-      this.x = 350
-      this.y = 50
-      this.renderObj.classList.add("bonus")
-      this.width = parseFloat(getComputedStyle(this.renderObj).width)
-      this.height = parseFloat(getComputedStyle(this.renderObj).height)
-      this.renderObj.id = "bonus" + (Math.random()*1000).toFixed(0)
-      this.id = this.renderObj.id
-      this.render()
-    } 
-    del(){
-      console.log(document.getElementById(this.id));
-    }
-  }
+  const [gameObjectsarr, setGameObjects] = React.useState(gameObjects || [])
 
   React.useEffect(()=>{
-    addEventlisteners()
-
-    let player:Player  = new Player()
+    player  = new Player()
     let bonus:Bonus  = new Bonus()
+    gameObjects.push(player,bonus)
+    setGameObjects(gameObjects)
     
-    setInterval(()=>{   
-      player.move()
-      bonus.move()
+    setInterval(()=>{  
+      let newArr = gameObjectsarr.filter((e)=>{
+        return e.isDestroyed !== true
+
+      })
+      setGameObjects(newArr)
+      newArr.forEach((e:any)=>{
+        e.move()
+      }) 
     },10)
     },[])
 
+
+
+    // const stream$ = rxjs.interval(1000)
+
+    // stream$.subscribe((val)=>{
+    //   console.log(val);
+      
+    // })
 
 
     function soundClick() {
@@ -226,8 +96,8 @@ const Game1: React.FC<any> = () => {
       
     
     <div className="characteristics">
-      <button className="but" onClick={()=>{soundClick();playerCharacteristics.speed = playerCharacteristics.speed + 2}}>speed Up</button>
-      <button className="but" onClick={()=>{soundClick();playerCharacteristics.speed = playerCharacteristics.speed - 2}}>speed Down</button>
+      <button className="but" onClick={()=>{soundClick();player.speed = player.speed + 2}}>speed Up</button>
+      <button className="but" onClick={()=>{soundClick();player.speed = player.speed - 2}}>speed Down</button>
       <button className="but" onClick={()=>{soundClick(); changeColor("blue")}}>color1</button>
       <button className="but" onClick={()=>{soundClick(); changeColor("green")}}>color2</button>
       <button className="but" onClick={()=>{soundClick(); changeColor("#2eff00")}}>color standart</button>
